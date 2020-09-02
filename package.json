@@ -1,10 +1,12 @@
 {
   "name": "j-counter",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A good counter for javascript and typescript",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "files": ["lib/**/*"],
+  "files": [
+    "lib/**/*"
+  ],
   "scripts": {
     "build": "tsc",
     "start": "tsc --watch",
@@ -12,11 +14,11 @@
     "testwatch": "npm run test -- --watchAll",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint -p tsconfig.json",
-    "prepublishOnly" : "npm test && npm run lint",
-    "prepare" : "npm run build",
-    "preversion" : "npm run lint",
-    "version" : "npm run format && git add -A src",
-    "postversion" : "git push && git push --tags"
+    "prepublishOnly": "npm test && npm run lint",
+    "prepare": "npm run build",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
   "keywords": [
     "counter, metering, javascript, node.js"
