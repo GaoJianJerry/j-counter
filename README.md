@@ -1,9 +1,12 @@
 # j-counter
 I need a package to count the concurrent login users of my application, but I couldn't find one that meet my requirements well. So, I wrote one.
 
+j-counter can increase or decrease the count whenever you want. The recording is timestamp based. And it calculates the peak value and average value for you. 
+It also do summarize on minute level and hour level, and tell you the peak/avg value of each minute and hour. By default, it do summarize each 10 minutes, but you can customize the interval.
+
 ## Installation
 ```Javascript
-npm install j-counter
+npm i j-counter
 ```
 ## Invoke in javascript
 ```Javascript
