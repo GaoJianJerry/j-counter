@@ -82,4 +82,3 @@ This package is still in development, but main features are already there.
                 hourSummary.push(summary); // you can store the count into database if need.
         });
 ```
- 
