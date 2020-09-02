@@ -1,6 +1,6 @@
 {
   "name": "j-counter",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A good counter for javascript and typescript",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
