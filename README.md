@@ -1,8 +1,7 @@
 # j-counter
-I need a package to count the concurrent login users in my application, and I didn't find any that meet my requirements well. So, I wrote one.
-Feel free to enjoy if you find it's what you are looking for.
+I need a package to count the concurrent login users of my application, but I couldn't find one that meet my requirements well. So, I wrote one.
 
-This package is still in development, but main features are already there.
+This package is still in development, but main features are already there. And below APIs in example won't change.
 ## Installation
 ```Javascript
 npm install j-counter

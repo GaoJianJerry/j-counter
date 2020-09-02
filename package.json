@@ -21,7 +21,7 @@
     "postversion": "git push && git push --tags"
   },
   "keywords": [
-    "counter, metering, javascript, node.js"
+    "counter, metering, javascript, node.js, typescript"
   ],
   "author": "Jerry Gao <jerry.job@163.com>",
   "license": "MIT",
