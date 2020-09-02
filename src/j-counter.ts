@@ -1,6 +1,5 @@
 import { Counter } from './counter';
 import { isNumber } from 'util';
-import { EventEmitter } from 'events';
 import { Summarizer } from './summarizer';
 import * as _ from 'underscore';
 
@@ -13,15 +12,14 @@ const EXCEPTION_DELETE_DEFAULT_COUNTER = 'Can not delete the default counter';
 //     MINUTE
 // };
 
-export class JCounter extends EventEmitter {
-  counters: Map<string, Counter> = new Map();
-  summarizers: Map<string, Summarizer> = new Map();
-  DEFAULT_NAME = '__DEFAULT_COUNTER__';
-  defaultCounter: Counter;
+export class JCounter {
+  private counters: Map<string, Counter> = new Map();
+  private summarizers: Map<string, Summarizer> = new Map();
+  private DEFAULT_NAME = '__DEFAULT_COUNTER__';
+  private defaultCounter: Counter;
   // granularity: Granularity;
 
   constructor() {
-    super();
     this.defaultCounter = new Counter(this.DEFAULT_NAME);
     this.counters.set(this.DEFAULT_NAME, this.defaultCounter);
   }

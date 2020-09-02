@@ -27,6 +27,12 @@ count = counter.getLastCount(); // 5
 counter.drop(6);
 count = counter.getLastCount(); // -1
 ```
+## Usage - Multiple counters
+```Javascript
+counter.createCounter('counter1');
+counter.addOne('counter1');
+let count1 = counter.getLastCount('counter1');
+```
 ## Usage - Get peak and average counts
 ```Javascript
 const peak = counter.getPeak(); // 5
