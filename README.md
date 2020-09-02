@@ -3,12 +3,15 @@ I need a package to count the concurrent login users in my application, and I di
 Feel free to enjoy if you find it's what you are looking for.
 
 This package is still in development, but main features are already there.
-
-## Installation - Javascript
+## Installation
+```Javascript
+        npm install j-counter
+```
+## Invoke in javascript
 ```Javascript
         const { JCounter } = require('j-counter');
 ```
-## Installation - Typescript
+## Invoke in typescript
 ```Javascript
         import { JCounter } from 'j-counter';
 ```
