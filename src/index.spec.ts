@@ -5,20 +5,23 @@ import * as _ from 'underscore';
 jest.setTimeout(3600000);
 
 class Utils {
-  constructor() {}
 
   /**
    * Execute the function fun() in ts milliseconds
    * @param fun : Function
    * @param ts : number
    */
-  execIn(fun: Function, ts: number) {
+  execIn(fun: () => void, ts: number) {
     return new Promise((resolve) => {
       setTimeout(() => {
         resolve(fun());
       }, ts);
     });
   }
+
+  idle(){
+    // Do nothing
+  };
 }
 
 const utils = new Utils();
@@ -45,7 +48,7 @@ describe('Counter creation', () => {
     expect(lastCount).toEqual(0);
     try {
       const lastCount1 = jc.getLastCount('counter1');
-      console.log(lastCount1);
+      // console.log(lastCount1);
     } catch (e) {
       expect(e.message).toEqual('The counter not exist');
     }
@@ -141,7 +144,7 @@ describe('Counter can get the count at a timestamp', () => {
 
   beforeAll(async () => {
     await utils.execIn(adds, 2000);
-    await utils.execIn(() => {}, 2000);
+    await utils.execIn(utils.idle, 2000);
   });
 
   afterAll(async () => {
@@ -183,7 +186,6 @@ describe('Counter can get peak value for given period', () => {
     jc.dropOne();
     jc.dropOne('counter1');
   };
-  const idle = () => {};
 
   beforeAll(async () => {
     /**
@@ -195,17 +197,17 @@ describe('Counter can get peak value for given period', () => {
      *
      *  each "-" stands for 250 ms
      */
-    await utils.execIn(add, 500); //0
-    await utils.execIn(add, 500); //2
-    await utils.execIn(add, 500); //2
-    await utils.execIn(add, 500); //4
-    await utils.execIn(add, 500); //4
-    await utils.execIn(add, 500); //6
-    await utils.execIn(drop, 500); //6
-    await utils.execIn(drop, 500); //4
-    await utils.execIn(drop, 500); //8
-    await utils.execIn(drop, 500); //2
-    await utils.execIn(idle, 1000);
+    await utils.execIn(add, 500); // 0
+    await utils.execIn(add, 500); // 2
+    await utils.execIn(add, 500); // 2
+    await utils.execIn(add, 500); // 4
+    await utils.execIn(add, 500); // 4
+    await utils.execIn(add, 500); // 6
+    await utils.execIn(drop, 500); // 6
+    await utils.execIn(drop, 500); // 4
+    await utils.execIn(drop, 500); // 8
+    await utils.execIn(drop, 500); // 2
+    await utils.execIn(utils.idle, 1000);
   });
 
   afterAll(() => {
@@ -257,7 +259,6 @@ describe('Counter can get average value for given period', () => {
     jc.dropOne();
     jc.dropOne('counter1');
   };
-  const idle = () => {};
 
   beforeAll(async () => {
     /**
@@ -278,7 +279,7 @@ describe('Counter can get average value for given period', () => {
     await utils.execIn(drop, 500);
     await utils.execIn(drop, 500);
     await utils.execIn(drop, 500);
-    await utils.execIn(idle, 1000);
+    await utils.execIn(utils.idle, 1000);
   });
 
   afterAll(() => {
@@ -298,22 +299,22 @@ describe('Counter can get average value for given period', () => {
 
   test('Average is calculated correctly', async () => {
     const count1 = jc.getAvg(c.firstAt, c.keys[1]);
-    expect(count1.toFixed(2)).toEqual(Number(1).toFixed(2));
+    expect(count1.toFixed(1)).toEqual(Number(1).toFixed(1));
 
     const count2 = jc.getAvg(c.firstAt, c.keys[2]);
-    expect(count2.toFixed(2)).toEqual(Number(1.5).toFixed(2));
+    expect(count2.toFixed(1)).toEqual(Number(1.5).toFixed(1));
 
     const count3 = jc.getAvg(c.keys[3], c.keys[6]);
-    expect(count3.toFixed(2)).toEqual(Number(4.33).toFixed(2));
+    expect(count3.toFixed(1)).toEqual(Number(4.33).toFixed(1));
 
     const count4 = jc.getAvg(c.firstAt - 5500, c.keys[3]);
-    expect(count4.toFixed(2)).toEqual(Number(2).toFixed(2));
+    expect(count4.toFixed(1)).toEqual(Number(2).toFixed(1));
 
     const count5 = jc.getAvg(c.keys[6], c.lastAt + 1500);
-    expect(count5.toFixed(2)).toEqual(Number(1.6).toFixed(2));
+    expect(count5.toFixed(1)).toEqual(Number(1.6).toFixed(1));
 
     const count6 = jc.getAvg(c.keys[4] - 250, c.keys[5] + 250);
-    expect(count6.toFixed(2)).toEqual(Number(4.5).toFixed(2));
+    expect(count6.toFixed(1)).toEqual(Number(4.5).toFixed(1));
   });
 
   test('Average is calculated correctly for default parameters', async () => {
@@ -338,7 +339,6 @@ describe('Counter work correctly on cut', () => {
     jc.dropOne();
     jc.dropOne('counter1');
   };
-  const idle = () => {};
 
   beforeAll(async () => {
     /**
@@ -363,7 +363,7 @@ describe('Counter work correctly on cut', () => {
     await utils.execIn(drop, 500);
     await utils.execIn(drop, 500);
     await utils.execIn(drop, 500);
-    await utils.execIn(idle, 1000);
+    await utils.execIn(utils.idle, 1000);
   });
 
   afterAll(() => {
@@ -382,7 +382,7 @@ describe('Counter work correctly on cut', () => {
   test('Cut works correctly when cut within record period', async () => {
     const cutAt = c.keys[1] + 250;
     const expectedTail = {
-      cutAt: cutAt,
+      cutAt,
       cutKeys: [c.keys[0], c.keys[1]],
       cutValues: [1, 2],
     };
@@ -396,7 +396,7 @@ describe('Counter work correctly on cut', () => {
   test('Cut works correctly when cut at a record key', async () => {
     const cutAt = c.keys[3];
     const expectedTail = {
-      cutAt: cutAt,
+      cutAt,
       cutKeys: [c.keys[0], c.keys[1], c.keys[2]],
       cutValues: [2, 1, 0],
     };
@@ -410,22 +410,22 @@ describe('Counter work correctly on cut', () => {
 
   test('Average is calculated correctly after cut', async () => {
     const count1 = jc.getAvg(c.firstAt, c.keys[1]);
-    expect(count1.toFixed(2)).toEqual(Number(1).toFixed(2));
+    expect(count1.toFixed(1)).toEqual(Number(1).toFixed(1));
 
     const count2 = jc.getAvg(c.firstAt, c.keys[2]);
-    expect(count2.toFixed(2)).toEqual(Number(1.5).toFixed(2));
+    expect(count2.toFixed(1)).toEqual(Number(1.5).toFixed(1));
 
     const count3 = jc.getAvg(c.keys[3], c.keys[6]);
-    expect(count3.toFixed(2)).toEqual(Number(4.33).toFixed(2));
+    expect(count3.toFixed(1)).toEqual(Number(4.33).toFixed(1));
 
     const count4 = jc.getAvg(c.firstAt - 5500, c.keys[3]);
-    expect(count4.toFixed(2)).toEqual(Number(2).toFixed(2));
+    expect(count4.toFixed(1)).toEqual(Number(2).toFixed(1));
 
     const count5 = jc.getAvg(c.keys[6], c.lastAt + 1500);
-    expect(count5.toFixed(2)).toEqual(Number(1.6).toFixed(2));
+    expect(count5.toFixed(1)).toEqual(Number(1.6).toFixed(1));
 
     const count6 = jc.getAvg(c.keys[4] - 250, c.keys[5] + 250);
-    expect(count6.toFixed(2)).toEqual(Number(4.5).toFixed(2));
+    expect(count6.toFixed(1)).toEqual(Number(4.5).toFixed(1));
   });
 
   test('Peak is calculated correctly after cut', async () => {
@@ -436,7 +436,7 @@ describe('Counter work correctly on cut', () => {
   test('All records are cut when cut after lastAt', async () => {
     const cutAt = c.lastAt + 100;
     const expectedTail = {
-      cutAt: cutAt,
+      cutAt,
       cutKeys: c.keys,
       cutValues: c.values,
     };
@@ -457,23 +457,21 @@ describe('Summarizer can be triggered', () => {
   const muniteSummary: any[] = [];
   const hourSummary: any[] = [];
   let hour: Date;
-  s.on('beforeSummarize', (summary) => {
-    console.log('beforeSummarize triggered.');
-    console.log(summary);
-  });
+  // s.on('beforeSummarize', (summary) => {
+  //   console.log('beforeSummarize triggered.');
+  //   console.log(summary);
+  // });
 
-  s.on('afterSummarize', (summary) => {
-    console.log('afterSummarize triggered.');
-    console.log(summary);
-  });
+  // s.on('afterSummarize', (summary) => {
+  //   console.log('afterSummarize triggered.');
+  //   console.log(summary);
+  // });
 
   s.on('hourSummary', (summary) => {
-    console.log('hourSummary triggered.');
     hourSummary.push(summary);
   });
 
   s.on('minuteSummary', (summary) => {
-    console.log('minuteSummary triggered.');
     muniteSummary.push(summary);
   });
   // const c = jc.getCounter();
@@ -484,7 +482,6 @@ describe('Summarizer can be triggered', () => {
   const drop = () => {
     jc.dropOne();
   };
-  const idle = () => {};
 
   beforeAll(async () => {
     /**
@@ -517,8 +514,8 @@ describe('Summarizer can be triggered', () => {
     await utils.execIn(drop, 500);
     await utils.execIn(drop, 500);
     await utils.execIn(drop, 500);
-    await utils.execIn(idle, 1000);
-    await utils.execIn(idle, 130000);
+    await utils.execIn(utils.idle, 1000);
+    await utils.execIn(utils.idle, 130000);
   });
 
   afterAll(() => {
