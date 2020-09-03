@@ -4,6 +4,10 @@
   "description": "A good counter for javascript and typescript",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/janiago/j-counter"
+},
   "files": [
     "lib/**/*"
   ],
