@@ -5,7 +5,6 @@ import * as _ from 'underscore';
 jest.setTimeout(3600000);
 
 class Utils {
-
   /**
    * Execute the function fun() in ts milliseconds
    * @param fun : Function
@@ -19,9 +18,9 @@ class Utils {
     });
   }
 
-  idle(){
+  idle() {
     // Do nothing
-  };
+  }
 }
 
 const utils = new Utils();
