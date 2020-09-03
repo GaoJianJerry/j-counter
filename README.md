@@ -115,3 +115,7 @@ summarizer.on('minuteSummary', (summary) => {
         counter.cut(Date.now() - (1000 * 60 * 30)); // only keep the records of recent 30 minutes.
 });
 ```
+## Calculation formula
+peak = max(counts)
+
+avg = (Σ (count * duration)) / (Σ durations)
