@@ -2,6 +2,7 @@
 I need a package to count the concurrent login users of my application, but I couldn't find one that meet my requirements well. So, I wrote one.
 
 j-counter can increase or decrease the count whenever you want. The recording is timestamp based. And it calculates the peak value and average value for you. 
+
 It also do summarize on minute level and hour level, and tell you the peak/avg value of each minute and hour. By default, it do summarize each 10 minutes, but you can customize the interval.
 
 ## Installation
@@ -97,7 +98,9 @@ const summarizer = counter.triggerSummarizer(1000 * 60 * 5); // 5 minutes
 But the minimum interval is 1 minute, even if you set the value to smaller number. This is because the calculation is based on minute.
 ## Data in memory
 The counter stores the count data in memory. It's like: 
+
 key: [1599116412345, 1599116412348, 1599116412352, ...] // timestamp when count changes
+
 value: [1,2,3,...] // the count
 
 To avoid the accumulating data from filling out the memory, summarizer automatically cut the records before the previous hour. 
