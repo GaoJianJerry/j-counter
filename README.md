@@ -89,4 +89,26 @@ summarizer.on('hourSummary', (summary) => {
         hourSummary.push(summary); // you can store the count into database if need.
 });
 ```
+## Usage - Summarizing interval
+The minuteSummary event is triggered every 10 minutes by default. The interval can be changed with parameter:
+```Javascript
+const summarizer = counter.triggerSummarizer(1000 * 60 * 5); // 5 minutes
+```
+But the minimum interval is 1 minute, even if you set the value to smaller number. This is because the calculation is based on minute.
+## Data in memory
+The counter stores the count data in memory. It's like: 
+key: [1599116412345, 1599116412348, 1599116412352, ...] // timestamp when count changes
+value: [1,2,3,...] // the count
 
+To avoid the accumulating data from filling out the memory, summarizer automatically cut the records before the previous hour. 
+E.g. when summarizer is calculating the data at "2020-09-03 15:30:01:0012", it cuts all the data before "2020-09-03 14:00:00:0000".
+If this is still risky, you can execute cut function on minuteSummary event like below. But make sure keep enough data for the calculation.
+
+```Javascript
+const minuteSummary = [];
+const summarizer = counter.triggerSummarizer(1000*);
+summarizer.on('minuteSummary', (summary) => {
+        minuteSummary.push(summary);
+        counter.cut(Date.now() - (1000 * 60 * 30)); // only keep the records of recent 30 minutes.
+});
+```
