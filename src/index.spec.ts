@@ -46,8 +46,7 @@ describe('Counter creation', () => {
     const lastCount = jc.getLastCount();
     expect(lastCount).toEqual(0);
     try {
-      const lastCount1 = jc.getLastCount('counter1');
-      // console.log(lastCount1);
+      jc.addOne('counter1');
     } catch (e) {
       expect(e.message).toEqual('The counter not exist');
     }
