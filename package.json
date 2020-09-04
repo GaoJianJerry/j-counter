@@ -26,7 +26,16 @@
     "npmpublish": "npm version patch && npm publish"
   },
   "keywords": [
-    "counter, metering, javascript, node.js, typescript"
+    "counter",
+    "counting",
+    "metering",
+    "concurrent-user",
+    "concurrent-usage",
+    "peak",
+    "average",
+    "javascript",
+    "typescript",
+    "node.js"
   ],
   "author": "Jerry Gao <jerry.job@163.com>",
   "license": "MIT",
