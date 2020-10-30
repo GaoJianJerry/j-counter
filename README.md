@@ -64,7 +64,7 @@ summarizer.on('minuteSummary', (summary) => {
         /**
          * The summary object is like this: 
          * {
-         *      hour: number, // the timestamp value of the hour
+         *      hour: number, // the timestamp value of the hour (minute, second and millisecond are 0)
          *      minute: number, // 0 - 59, stands for the minute
          *      peak: number, // the peak count during the minute
          *      avg: number, // the average count during the minute
@@ -82,9 +82,9 @@ summarizer.on('hourSummary', (summary) => {
         /**
          * The summary object is like this: 
          * {
-         *      hour: number, // the timestamp value of the hour
-         *      peak: number, // the peak count during the minute
-         *      avg: number, // the average count during the minute
+         *      hour: number, // the timestamp value of the hour (minute, second and millisecond are 0)
+         *      peak: number, // the peak count during the hour
+         *      avg: number, // the average count during the hour
          * }
          */
         hourSummary.push(summary); // you can store the count into database if need.
